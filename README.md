@@ -1,1 +1,1 @@
-packages/annotation_inspector/README.md
+packages/annotation_indexer/README.md
