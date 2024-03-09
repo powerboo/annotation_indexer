@@ -1,0 +1,41 @@
+{
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "annotation_indexer",
+      "cwd": "packages/annotation_indexer",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "annotation_indexer_annotation",
+      "cwd": "packages/annotation_indexer_annotation",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "sample_pj(indexer)",
+      "cwd": "packages/sample_pj",
+      "request": "launch",
+      "type": "dart",
+      "program": "${workspaceFolder}/packages/annotation_indexer/bin/annotation_indexer.dart"
+    },
+    {
+      "name": "sample_pj (profile mode)",
+      "cwd": "packages/sample_pj",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "sample_pj (release mode)",
+      "cwd": "packages/sample_pj",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ]
+}
