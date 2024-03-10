@@ -21,10 +21,10 @@ packages:
     dependency: "direct dev"
     description:
       name: annotation_indexer
-      sha256: "248c528351e7e580acfcc3ab491a1f4ba33ebe4f3188fadb0b202daa2f3c0c8b"
+      sha256: fadf2f5497e2ce77b94255b6c9c3f83909d93e3ac674b16ec4b4e53693aa83eb
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.3"
   annotation_indexer_annotation:
     dependency: "direct main"
     description:

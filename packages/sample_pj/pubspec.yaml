@@ -21,7 +21,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
-  annotation_indexer: 0.0.2
+  annotation_indexer: 0.0.3
 
 flutter:
   uses-material-design: true

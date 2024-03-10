@@ -11,27 +11,53 @@ import 'package:sample_pj/domain/orange.list_view.dart';
 
 final List<RouteBase> routes = [
   GoRoute(
-    path: ListViewPath.pineListView,
+    path: ListViewPath.pineListView.route,
     builder: (context, state) => const PineListView(),
   ),
   GoRoute(
-    path: ListViewPath.appleListView,
+    path: ListViewPath.appleListView.route,
     builder: (context, state) => const AppleListView(),
   ),
   GoRoute(
-    path: ListViewPath.orangeListView,
+    path: ListViewPath.orangeListView.route,
     builder: (context, state) => const OrangeListView(),
   ),
 ];
 
 class ListViewPath {
-  static const pineListView = "/pine-list-view";
-  static const appleListView = "/apple-list-view";
-  static const orangeListView = "/orange-list-view";
+  static const Path pineListView = Path("PineListView");
+  static const Path appleListView = Path("AppleListView");
+  static const Path orangeListView = Path("OrangeListView");
 }
 
-const List<String> paths = [
+final List<Path> paths = [
   ListViewPath.pineListView,
   ListViewPath.appleListView,
   ListViewPath.orangeListView,
 ];
+
+class Path {
+  final String name;
+
+  const Path(this.name);
+
+  String get route {
+    return name.toKebabCase();
+  }
+
+  String get fullPath {
+    return "/${name.toKebabCase()}";
+  }
+
+  @override
+  String toString() => name;
+}
+
+extension KebabCase on String {
+  String toKebabCase() {
+    final regExp = RegExp(r'(?<=[a-z])[A-Z]');
+    return replaceAllMapped(
+            regExp, (Match match) => '-${match.group(0)!.toLowerCase()}')
+        .toLowerCase();
+  }
+}
