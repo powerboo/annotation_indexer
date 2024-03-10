@@ -5,9 +5,9 @@
 // **************************************************************************
 
 import 'package:go_router/go_router.dart';
-import 'package:sample_pj/domain/pine_list_view.dart';
-import 'package:sample_pj/domain/apple_list_view.dart';
-import 'package:sample_pj/domain/orange_list_view.dart';
+import 'package:sample_pj/domain/pine.list_view.dart';
+import 'package:sample_pj/domain/apple.list_view.dart';
+import 'package:sample_pj/domain/orange.list_view.dart';
 
 final List<RouteBase> routes = [
   GoRoute(
@@ -29,3 +29,9 @@ class ListViewPath {
   static const appleListView = "/apple-list-view";
   static const orangeListView = "/orange-list-view";
 }
+
+const List<String> paths = [
+  ListViewPath.pineListView,
+  ListViewPath.appleListView,
+  ListViewPath.orangeListView,
+];

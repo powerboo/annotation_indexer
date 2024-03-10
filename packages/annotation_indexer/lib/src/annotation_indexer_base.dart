@@ -15,7 +15,7 @@ class AnnotatedClassIndexer {
 
     final pathList = libDir
         .listSync(recursive: true)
-        .where((e) => e.path.endsWith('.dart') && e is File)
+        .where((e) => e.path.endsWith('.list_view.dart') && e is File)
         .map((e) => e.absolute.path)
         .toList();
 
@@ -24,7 +24,8 @@ class AnnotatedClassIndexer {
     final StringBuffer buffer = StringBuffer();
     final StringBuffer importBuffer = StringBuffer();
     final StringBuffer goRouteBuffer = StringBuffer();
-    final StringBuffer listViewBuffer = StringBuffer();
+    final StringBuffer listViewPathClassBuffer = StringBuffer();
+    final StringBuffer listViewPathListBuffer = StringBuffer();
 
     importBuffer.writeln('''
 // GENERATED CODE - DO NOT MODIFY BY HAND
@@ -37,8 +38,8 @@ class AnnotatedClassIndexer {
 
     importBuffer.writeln("import 'package:go_router/go_router.dart';");
 
-    listViewBuffer.writeln("class ListViewPath {");
-
+    listViewPathClassBuffer.writeln("class ListViewPath {");
+    listViewPathListBuffer.writeln("const List<String> paths = [");
     for (final path in pathList) {
       final context = collection.contextFor(path);
       final result = await context.currentSession.getResolvedUnit(path);
@@ -57,7 +58,7 @@ class AnnotatedClassIndexer {
             if (annotation.element?.displayName == "IndexTarget") {
               importBuffer.writeln("import '${lib.identifier}';");
 
-              listViewBuffer.writeln(
+              listViewPathClassBuffer.writeln(
                   "static const ${child.name.toCamelCase()} = \"/${child.name.toKebabCase()}\";");
 
               goRouteBuffer.writeln('''
@@ -66,13 +67,16 @@ GoRoute(
   builder: (context, state) => const ${child.name}(),
 ),
 ''');
+              listViewPathListBuffer
+                  .writeln('ListViewPath.${child.name.toCamelCase()},');
             }
           }
         }
       }
     }
 
-    listViewBuffer.writeln("}");
+    listViewPathClassBuffer.writeln("}");
+    listViewPathListBuffer.writeln("];");
 
     buffer.writeln(importBuffer.toString());
 
@@ -80,7 +84,8 @@ GoRoute(
     buffer.writeln(goRouteBuffer.toString());
     buffer.writeln("];");
 
-    buffer.writeln(listViewBuffer.toString());
+    buffer.writeln(listViewPathClassBuffer.toString());
+    buffer.writeln(listViewPathListBuffer.toString());
 
     output.writeAsStringSync(_formatter.format(buffer.toString()));
   }
