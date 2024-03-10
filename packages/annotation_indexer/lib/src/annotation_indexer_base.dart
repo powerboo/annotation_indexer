@@ -39,7 +39,7 @@ class AnnotatedClassIndexer {
     importBuffer.writeln("import 'package:go_router/go_router.dart';");
 
     listViewPathClassBuffer.writeln("class ListViewPath {");
-    listViewPathListBuffer.writeln("const List<String> paths = [");
+    listViewPathListBuffer.writeln("final List<Path> paths = [");
     for (final path in pathList) {
       final context = collection.contextFor(path);
       final result = await context.currentSession.getResolvedUnit(path);
@@ -59,11 +59,11 @@ class AnnotatedClassIndexer {
               importBuffer.writeln("import '${lib.identifier}';");
 
               listViewPathClassBuffer.writeln(
-                  "static const ${child.name.toCamelCase()} = \"/${child.name.toKebabCase()}\";");
+                  "static const Path ${child.name.toCamelCase()} = Path(\"${child.name}\");");
 
               goRouteBuffer.writeln('''
 GoRoute(
-  path: ListViewPath.${child.name.toCamelCase()},
+  path: ListViewPath.${child.name.toCamelCase()}.route,
   builder: (context, state) => const ${child.name}(),
 ),
 ''');
@@ -86,6 +86,35 @@ GoRoute(
 
     buffer.writeln(listViewPathClassBuffer.toString());
     buffer.writeln(listViewPathListBuffer.toString());
+
+    buffer.writeln('''
+class Path {
+  final String name;
+
+  const Path(this.name);
+
+  String get route {
+    return name.toKebabCase();
+  }
+
+  String get fullPath {
+    return "/\${name.toKebabCase()}";
+  }
+
+  @override
+  String toString() => name;
+}
+
+extension KebabCase on String {
+  String toKebabCase() {
+    final regExp = RegExp(r'(?<=[a-z])[A-Z]');
+    return replaceAllMapped(
+            regExp, (Match match) => '-\${match.group(0)!.toLowerCase()}')
+        .toLowerCase();
+  }
+}
+
+''');
 
     output.writeAsStringSync(_formatter.format(buffer.toString()));
   }
