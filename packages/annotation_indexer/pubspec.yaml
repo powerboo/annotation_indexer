@@ -1,6 +1,6 @@
 name: annotation_indexer
 description: A tool to inspect annotations in dart files
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/powerboo/annotation_indexer
 
 environment:
